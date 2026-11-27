@@ -1,5 +1,5 @@
 # Stage 1: Build shared React + Vite frontend
-FROM node:22-bookworm-slim AS frontend-builder
+FROM --platform=$BUILDPLATFORM node:22-bookworm-slim AS frontend-builder
 WORKDIR /app/frontend
 
 COPY frontend/package.json ./
@@ -21,6 +21,7 @@ RUN npm install --omit=dev --no-audit --no-fund
 
 # Stage 3: Minimal production runtime (serves both Web UI and shared REST API)
 FROM node:22-bookworm-slim AS runtime
+LABEL org.opencontainers.image.source="https://github.com/BlackNexus95/vinflow"
 WORKDIR /app/backend
 
 ENV NODE_ENV=production \

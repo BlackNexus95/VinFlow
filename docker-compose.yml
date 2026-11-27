@@ -1,9 +1,6 @@
 services:
   finflow:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: finflow:latest
+    image: ghcr.io/blacknexus95/vinflow:latest
     container_name: finflow
     restart: unless-stopped
     ports:

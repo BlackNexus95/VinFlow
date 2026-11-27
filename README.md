@@ -21,19 +21,22 @@ FinFlow is a self-hosted personal finance tracker with a **shared React + TypeSc
 
 ## Docker Deployment (Recommended for Self-Hosting)
 
-Everything (the React web app + Node.js REST API + SQLite database) is packaged into a single multi-stage container via `Dockerfile` and `docker-compose.yml`.
+Everything (the React web app + Node.js REST API + SQLite database) is packaged into a single multi-arch (`linux/amd64`, `linux/arm64`) container automatically published to GitHub Container Registry (`ghcr.io/blacknexus95/vinflow:latest`) via [`.github/workflows/docker.yml`](.github/workflows/docker.yml).
 
-### Quick Start with Docker Compose
+### Quick Start with Docker Compose / OpenMediaVault
+
+Paste `docker-compose.yml` into OpenMediaVault's **Compose → Files** plugin (or run locally):
 
 ```bash
-docker compose up -d --build
+docker compose pull
+docker compose up -d
 ```
 
-- **Web App & Shared API:** `http://<your-server-ip>:3001` (change host port with `FINFLOW_PORT=8080 docker compose up -d`)
-- **Persistent Database:** Stored in the `finflow_data` Docker volume at `/data/finance.db` (survives container restarts and rebuilds).
+- **Web App & Shared API:** `http://<your-server-ip>:3001` (change host port with `FINFLOW_PORT=8080`)
+- **Persistent Database:** Stored in the `finflow_data` Docker volume at `/data/finance.db` (survives container restarts and updates).
 - **Android App:** Open **Settings → Shared Backend Server** in the Android app, enter `http://<your-server-ip>:3001`, and tap **Test & Save**.
 
-### Or Run Directly with Docker / Podman
+### Or Build & Run Locally with Docker / Podman
 
 ```bash
 docker build -t finflow:latest .
