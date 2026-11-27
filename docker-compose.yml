@@ -1,0 +1,28 @@
+services:
+  finflow:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: finflow:latest
+    container_name: finflow
+    restart: unless-stopped
+    ports:
+      - "${FINFLOW_PORT:-3001}:3001"
+    environment:
+      PORT: "3001"
+      HOST: "0.0.0.0"
+      FINANCE_DB_PATH: "/data/finance.db"
+      TZ: "${TZ:-Europe/Berlin}"
+    volumes:
+      - finflow_data:/data
+      # Alternatively, use a local folder bind mount instead of a named volume:
+      # - ./data:/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/api/health').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  finflow_data:

@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+dist/
+build/
+release/
+
+# Backend database & runtime
+backend/data/
+*.db
+*.db-wal
+*.db-shm
+.env
+.env.local
+
+# Android build artifacts
+frontend/android/.gradle/
+frontend/android/build/
+frontend/android/app/build/
+frontend/android/local.properties
+
+# VM disk images, keys, and runtime state
+vm/*.img
+vm/*.qcow2
+vm/*.iso
+vm/id_ed25519
+vm/id_ed25519.pub
+vm/*.pid
+vm/*.log
+vm/*.sock
+
+# OS & editor
+.DS_Store
+*.log

@@ -1,0 +1,15 @@
+.git
+.gitignore
+README.md
+vm/
+release/
+frontend/android/
+frontend/dist/
+**/node_modules/
+backend/data/
+*.db
+*.db-wal
+*.db-shm
+*.log
+.env
+.env.*

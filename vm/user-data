@@ -1,0 +1,27 @@
+#cloud-config
+hostname: finance-dev
+manage_etc_hosts: true
+
+users:
+  - name: dev
+    gecos: Finance Dev
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: [adm, sudo]
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHBtG6r00XG7RO1vdCpA8QOhTTHXucOOjk35bRBKdG3s finance-dev-vm
+
+ssh_pwauth: false
+package_update: false
+package_upgrade: false
+
+runcmd:
+  - fallocate -l 2G /swapfile || dd if=/dev/zero of=/swapfile bs=1M count=2048
+  - chmod 600 /swapfile
+  - mkswap /swapfile
+  - swapon /swapfile
+  - echo '/swapfile none swap sw 0 0' >> /etc/fstab
+  - mkdir -p /home/dev/finance
+  - chown -R dev:dev /home/dev/finance
+  - touch /var/lib/cloud/instance/finance-vm-ready
